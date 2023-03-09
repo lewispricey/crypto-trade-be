@@ -1,9 +1,8 @@
 const express = require("express");
+const router = require("./router");
 
 const app = express();
 
-app.get("/status", (req, res, next) => {
-  res.status(200).send({ msg: "online" });
-});
+app.use("/", router);
 
 module.exports = app;
