@@ -18,3 +18,102 @@ describe("/status", () => {
     });
   });
 });
+
+describe("/register", () => {
+  describe("POST", () => {
+    test("201 - returns the new user profile", async () => {
+      const postBody = {
+        email: "testemail@email.com",
+        password: "P4ssW0RD!",
+      };
+
+      const { status, body } = await request(app)
+        .post("/register")
+        .send(postBody);
+
+      expect(status).toBe(201);
+      expect(body.user).toEqual({
+        fiat_balance: "10000.00",
+        profile_id: expect.any(Number),
+        user_id: expect.any(Number),
+      });
+    });
+
+    test("400 - returns an error when the request is missing a email", async () => {
+      const postBody = {
+        password: "P4ssW0RD!",
+      };
+
+      const { status, body } = await request(app)
+        .post("/register")
+        .send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "invalid email" });
+    });
+
+    test("400 - returns an error when the request is missing a password", async () => {
+      const postBody = {
+        email: "testemail@email.com",
+      };
+
+      const { status, body } = await request(app)
+        .post("/register")
+        .send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({
+        msg: "password does not meet requirements",
+      });
+    });
+
+    test("400 - returns an error when passed an invalid email", async () => {
+      const postBody = {
+        email: "notanemail.com",
+        password: "P4ssW0RD!",
+      };
+
+      const { status, body } = await request(app)
+        .post("/register")
+        .send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "invalid email" });
+    });
+
+    test("400 - returns an error when passed a password that does not meet requirements", async () => {
+      const postBody = {
+        email: "testemail@email.com",
+        password: "password1",
+      };
+
+      const { status, body } = await request(app)
+        .post("/register")
+        .send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({
+        msg: "password does not meet requirements",
+      });
+    });
+
+    test("400 - returns an error when trying to reuse an email in the DB", async () => {
+      const postBody = {
+        email: "testemail@email.com",
+        password: "P4ssW0RD!",
+      };
+
+      const response1 = await request(app).post("/register").send(postBody);
+      expect(response1.status).toBe(201);
+
+      const { status, body } = await request(app)
+        .post("/register")
+        .send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({
+        msg: "account creation failed",
+      });
+    });
+  });
+});
