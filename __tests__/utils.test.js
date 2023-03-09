@@ -1,5 +1,6 @@
 const checkEmail = require("../utils/checkEmail");
 const checkPassword = require("../utils/checkPassword");
+const hashPassword = require("../utils/hashPassword");
 
 describe("checkEmail", () => {
   test("should return false when passed an email without an @ symbol", () => {
@@ -53,5 +54,20 @@ describe("checkPassword", () => {
     const input = "P4ssW0RD!";
     const result = checkPassword(input);
     expect(result).toBe(true);
+  });
+});
+
+describe("hashPassword", () => {
+  test("should return a hash value for the password provided with a fixed length", async () => {
+    const password = "P4ssW0RD!";
+    const result = await hashPassword(password);
+    expect(result).not.toBe(password);
+    expect(result).toHaveLength(98);
+  });
+  test("should return a different hash value for the same password each time", async () => {
+    const password = "P4ssW0RD!";
+    const result1 = await hashPassword(password);
+    const result2 = await hashPassword(password);
+    expect(result1).not.toBe(result2);
   });
 });
