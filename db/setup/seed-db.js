@@ -21,7 +21,6 @@ const setupTables = async () => {
 const seedDb = async () => {
   await dropTables();
   await setupTables();
-  console.log("db Seeded!");
 };
 
 module.exports = seedDb;
