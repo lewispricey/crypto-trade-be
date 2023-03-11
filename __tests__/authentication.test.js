@@ -32,11 +32,7 @@ describe("/auth/register", () => {
         .send(postBody);
 
       expect(status).toBe(201);
-      expect(body.user).toEqual({
-        fiat_balance: "10000.00",
-        profile_id: expect.any(Number),
-        user_id: expect.any(Number),
-      });
+      expect(body.user).toEqual({ user_id: expect.any(Number) });
     });
 
     test("400 - returns an error when the request is missing a email", async () => {
