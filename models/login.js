@@ -33,7 +33,9 @@ const login = (email, password) => {
         return Promise.reject({ code: 400, msg: "invalid email or password" });
       } else {
         const user = { user_id: user_id };
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "24h",
+        });
         return { accessToken };
       }
     });
