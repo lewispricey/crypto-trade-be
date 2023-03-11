@@ -1,8 +1,8 @@
-const insertRegister = require("../models/insertRegister");
+const register = require("../models/register");
 
 const postRegister = (req, res, next) => {
   const { email, password } = req.body;
-  return insertRegister(email, password)
+  return register(email, password)
     .then((user) => {
       res.status(201).send({ user });
     })

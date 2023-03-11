@@ -1,7 +1,7 @@
 const db = require("../db/connection");
 const validateInputs = require("../utils/validateInputs");
 const hashPassword = require("../utils/hashPassword");
-const insertRegister = (email, password) => {
+const register = (email, password) => {
   return validateInputs(email, password)
     .then(() => {
       return hashPassword(password);
@@ -27,4 +27,4 @@ const insertRegister = (email, password) => {
     });
 };
 
-module.exports = insertRegister;
+module.exports = register;
