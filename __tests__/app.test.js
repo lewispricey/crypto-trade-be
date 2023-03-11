@@ -117,3 +117,68 @@ describe("/register", () => {
     });
   });
 });
+
+describe("/login", () => {
+  describe("POST", () => {
+    test("200 - returns a JWT access token upon successful login", async () => {
+      const postBody = {
+        email: "test@lprice.dev",
+        password: "isS1ANZ*#ESaRVIUgdnC9!$*",
+      };
+
+      const { header, status, body } = await request(app)
+        .post("/login")
+        .send(postBody);
+
+      expect(status).toBe(200);
+      expect(body).toEqual({ accessToken: expect.any(String) });
+      expect(body.accessToken.length).toBe(105);
+    });
+
+    test("400 - returns an error when email is missing", async () => {
+      const postBody = {
+        password: "isS1ANZ*#ESaRVIUgdnC9!$*",
+      };
+
+      const { status, body } = await request(app).post("/login").send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "invalid email or password" });
+    });
+
+    test("400 - returns an error when password is missing", async () => {
+      const postBody = {
+        email: "notRegistered@lprice.dev",
+      };
+
+      const { status, body } = await request(app).post("/login").send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "invalid email or password" });
+    });
+
+    test("400 - returns an error if email isn't registered", async () => {
+      const postBody = {
+        email: "notRegistered@lprice.dev",
+        password: "isS1ANZ*#ESaRVIUgdnC9!$*",
+      };
+
+      const { status, body } = await request(app).post("/login").send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "invalid email or password" });
+    });
+
+    test("400 - returns an error if the password does not compute to the saved hash", async () => {
+      const postBody = {
+        email: "test@lprice.dev",
+        password: "P4ssW0RD!",
+      };
+
+      const { status, body } = await request(app).post("/login").send(postBody);
+
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "invalid email or password" });
+    });
+  });
+});

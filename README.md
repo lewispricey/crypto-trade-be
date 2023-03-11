@@ -18,17 +18,23 @@ The project relies on the following dependencies:
 - Node Postgres
 - DotEnv
 - Argon2
+- JSON Web Token
 
-To install these, navigate to the root directory of the project and run the following command:
+These are all listed within the package.json file so to automaticaly install these navigate to the root directory of the project and run the following command:
 
 `npm install`
 
 ### Environment Variables
 
-In order to connect to the test and development databases you'll need to create the two .env files below in the projects root
+In order to connect to the test and development databases you'll need to create the following .env files in the projects root
 
-Filename - Contents
+FileNames
 
-.env.test - PGDATABASE=
+- .env.test
+- .env.dev
 
-.env.dev - PGDATABASE=
+Contents
+
+- PGDATABASE=
+- ACCESS_TOKEN_SECRET=
+<!-- - PRIVATEKEY= -->
