@@ -9,17 +9,17 @@ beforeEach(async () => {
 
 afterAll(() => db.end());
 
-describe("/status", () => {
+describe("/auth/status", () => {
   describe("GET", () => {
     test("200 - returns an object with the key of online", async () => {
-      const { status, body } = await request(app).get("/status");
+      const { status, body } = await request(app).get("/auth/status");
       expect(status).toBe(200);
       expect(body).toEqual({ msg: "online" });
     });
   });
 });
 
-describe("/register", () => {
+describe("/auth/register", () => {
   describe("POST", () => {
     test("201 - returns the new user profile", async () => {
       const postBody = {
@@ -28,7 +28,7 @@ describe("/register", () => {
       };
 
       const { status, body } = await request(app)
-        .post("/register")
+        .post("/auth/register")
         .send(postBody);
 
       expect(status).toBe(201);
@@ -45,7 +45,7 @@ describe("/register", () => {
       };
 
       const { status, body } = await request(app)
-        .post("/register")
+        .post("/auth/register")
         .send(postBody);
 
       expect(status).toBe(400);
@@ -58,7 +58,7 @@ describe("/register", () => {
       };
 
       const { status, body } = await request(app)
-        .post("/register")
+        .post("/auth/register")
         .send(postBody);
 
       expect(status).toBe(400);
@@ -74,7 +74,7 @@ describe("/register", () => {
       };
 
       const { status, body } = await request(app)
-        .post("/register")
+        .post("/auth/register")
         .send(postBody);
 
       expect(status).toBe(400);
@@ -88,7 +88,7 @@ describe("/register", () => {
       };
 
       const { status, body } = await request(app)
-        .post("/register")
+        .post("/auth/register")
         .send(postBody);
 
       expect(status).toBe(400);
@@ -103,11 +103,13 @@ describe("/register", () => {
         password: "P4ssW0RD!",
       };
 
-      const response1 = await request(app).post("/register").send(postBody);
+      const response1 = await request(app)
+        .post("/auth/register")
+        .send(postBody);
       expect(response1.status).toBe(201);
 
       const { status, body } = await request(app)
-        .post("/register")
+        .post("/auth/register")
         .send(postBody);
 
       expect(status).toBe(400);
@@ -118,7 +120,7 @@ describe("/register", () => {
   });
 });
 
-describe("/login", () => {
+describe("/auth/login", () => {
   describe("POST", () => {
     test("200 - returns a JWT access token upon successful login", async () => {
       const postBody = {
@@ -126,8 +128,8 @@ describe("/login", () => {
         password: "isS1ANZ*#ESaRVIUgdnC9!$*",
       };
 
-      const { header, status, body } = await request(app)
-        .post("/login")
+      const { status, body } = await request(app)
+        .post("/auth/login")
         .send(postBody);
 
       expect(status).toBe(200);
@@ -140,7 +142,9 @@ describe("/login", () => {
         password: "isS1ANZ*#ESaRVIUgdnC9!$*",
       };
 
-      const { status, body } = await request(app).post("/login").send(postBody);
+      const { status, body } = await request(app)
+        .post("/auth/login")
+        .send(postBody);
 
       expect(status).toBe(400);
       expect(body).toEqual({ msg: "invalid email or password" });
@@ -151,7 +155,9 @@ describe("/login", () => {
         email: "notRegistered@lprice.dev",
       };
 
-      const { status, body } = await request(app).post("/login").send(postBody);
+      const { status, body } = await request(app)
+        .post("/auth/login")
+        .send(postBody);
 
       expect(status).toBe(400);
       expect(body).toEqual({ msg: "invalid email or password" });
@@ -163,7 +169,9 @@ describe("/login", () => {
         password: "isS1ANZ*#ESaRVIUgdnC9!$*",
       };
 
-      const { status, body } = await request(app).post("/login").send(postBody);
+      const { status, body } = await request(app)
+        .post("/auth/login")
+        .send(postBody);
 
       expect(status).toBe(400);
       expect(body).toEqual({ msg: "invalid email or password" });
@@ -175,7 +183,9 @@ describe("/login", () => {
         password: "P4ssW0RD!",
       };
 
-      const { status, body } = await request(app).post("/login").send(postBody);
+      const { status, body } = await request(app)
+        .post("/auth/login")
+        .send(postBody);
 
       expect(status).toBe(400);
       expect(body).toEqual({ msg: "invalid email or password" });
