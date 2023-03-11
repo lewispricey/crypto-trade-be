@@ -3,9 +3,8 @@ const login = require("../models/login");
 const postLogin = (req, res, next) => {
   const { email, password } = req.body;
   login(email, password)
-    .then((msg) => {
-      //need to add JWT to header before sending
-      res.status(200).send(msg);
+    .then((token) => {
+      res.status(200).send(token);
     })
     .catch((err) => {
       next(err);
