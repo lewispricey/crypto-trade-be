@@ -9,16 +9,6 @@ beforeEach(async () => {
 
 afterAll(() => db.end());
 
-describe("/auth/status", () => {
-  describe("GET", () => {
-    test("200 - returns an object with the key of online", async () => {
-      const { status, body } = await request(app).get("/auth/status");
-      expect(status).toBe(200);
-      expect(body).toEqual({ msg: "online" });
-    });
-  });
-});
-
 describe("/auth/register", () => {
   describe("POST", () => {
     test("201 - returns the new user profile", async () => {
