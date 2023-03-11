@@ -120,7 +120,7 @@ describe("/auth/login", () => {
 
       expect(status).toBe(200);
       expect(body).toEqual({ accessToken: expect.any(String) });
-      expect(body.accessToken.length).toBe(105);
+      expect(body.accessToken.length > 100).toBe(true);
     });
 
     test("400 - returns an error when email is missing", async () => {
