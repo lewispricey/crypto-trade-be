@@ -25,7 +25,7 @@ const login = (email, password) => {
         });
       return Promise.all([
         verifyPassword(password, rows[0].password),
-        rows[0].email,
+        rows[0].user_id,
       ]);
     })
     .then(([hashResult, user_id]) => {
@@ -33,9 +33,16 @@ const login = (email, password) => {
         return Promise.reject({ code: 400, msg: "invalid email or password" });
       } else {
         const user = { user_id: user_id };
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        const encryptionKey = Buffer.from(
+          process.env.PRIVATE_KEY,
+          "base64"
+        ).toString("ascii");
+
+        const accessToken = jwt.sign(user, encryptionKey, {
+          algorithm: "RS256",
           expiresIn: "24h",
         });
+
         return { accessToken };
       }
     });
