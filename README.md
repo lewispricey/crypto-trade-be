@@ -36,5 +36,5 @@ FileNames
 Contents
 
 - PGDATABASE=
-- ACCESS_TOKEN_SECRET=
-<!-- - PRIVATEKEY= -->
+- PRIVATE_KEY= RS256 Private Key encoded as base 64
+- PUBLIC_KEY= RS256 Public Key encoded as base 64
